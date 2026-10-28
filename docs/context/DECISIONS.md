@@ -65,3 +65,11 @@
 - **Contexto**: se necesita historial para auditar cambios y hacer handoff, pero no se deben crear commits sin revision.
 - **Decision**: inicializar el repositorio y mantener `.env` y `.opencode/state/` fuera de git; los commits los autoriza el usuario.
 - **Consecuencias**: hay base para `git diff` y para un primer commit revisado. Hasta que exista ese commit, el historial es local y no hay red de seguridad remota.
+
+## ADR-009 - WordPress no se versiona en el monorepo
+
+- **Fecha**: 2026-10-27
+- **Estado**: aceptada
+- **Contexto**: el sitio local es una instalacion stock de 114 MB (98 MB de core, temas por defecto, sin codigo propio) y su contenido vive en MySQL. Versionarlo arrastraria secretos de `wp-config.php`, actualizaciones de core y ruido en el diff.
+- **Decision**: WordPress queda fuera de git. Solo se versionaria codigo propio (`wp-content/themes/<tema>`, `mu-plugins`, plugins propios) y, si hiciera falta reproducir el contenido, un dump sanitizado en `wordpress/` con el core y `wp-config.php` ignorados.
+- **Consecuencias**: el repo se mantiene ligero y sin secretos. Reconstruir el CMS exige instalar WordPress 7.1.3 e importar el dump por separado; un clone del monorepo no levanta WordPress.

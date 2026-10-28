@@ -106,10 +106,13 @@ docs/context/                memoria persistente
 ## WordPress local
 
 - URL: `http://localhost/anguldpress`.
-- Document root: `/Applications/XAMPP/htdocs/anguldpress`.
+- Document root: symlink `/Applications/XAMPP/htdocs/anguldpress` -> `/Users/felipehrnndz/Documents/Proyectos/wordpress-sites/anguldpress`.
+- Instalacion stock de WordPress 7.1.3 (114 MB): temas Twenty Twenty-Three/Four/Five, plugin Akismet, sin `uploads/`, sin tema, plugin ni mu-plugin propio.
 - REST: `http://localhost/anguldpress/index.php/wp-json` (`WP_REST_PATH=index.php/wp-json`).
 - `wp-config.php` define `WP_ENVIRONMENT_TYPE=local` para permitir Application Passwords sobre HTTP local. No usar en produccion.
 - Backup de la config: `wp-config.php.bak.20261027215900`.
+- Inventario de contenido (2026-10-27): 2 posts (`hello-world`, `prueba`), 1 page (`sample-page`), 0 media, 1 categoria (`Uncategorized`), 0 tags; sin menus ni ACF.
+- No se versiona en este repo: core, `wp-config.php` y base de datos quedan fuera (ADR-009).
 
 ## Entorno
 
@@ -137,7 +140,7 @@ npm test             # tests de apps/web
 
 ## Limitaciones y riesgos
 
-- El diseno y el contenido del sitio WordPress original aun no se migraron; la home es minima.
+- El WordPress local es una instalacion stock sin diseno ni contenido propio: no hay nada que migrar, el sitio publico se disena desde cero.
 - El admin solo gestiona posts; faltan pages, media, categorias y tags.
 - No hay subida de media desde el panel.
 - Redis esta previsto pero no implementado; no hay cache ni invalidacion.
@@ -145,12 +148,12 @@ npm test             # tests de apps/web
 - CSRF: la cookie es sameSite lax; si el admin se sirve cross-site, hace falta token CSRF.
 - Application Passwords sobre HTTP solo es aceptable en local; produccion requiere HTTPS.
 - El REST con permalinks planos depende de `WP_REST_PATH` o de la autodeteccion.
-- El SSR/prerender publico no consulta la API en build (la home lo hace en cliente); al migrar el diseno habra que decidir estrategia de datos para SEO.
+- El SSR/prerender publico no consulta la API en build (la home lo hace en cliente); falta decidir estrategia de datos para SEO (ADR-010).
 
 ## Proximos pasos
 
-1. Auditar el sitio WordPress: rutas, plantillas, menus, ACF/campos, SEO, redirects y medios.
-2. Definir el modelo de contenido y migrar el diseno publico a Angular (home, single, page, archivos).
+1. ADR-010: estrategia de datos SSR/SEO (resolver en servidor, `TransferState`, render modes por ruta).
+2. Rutas publicas reales en Angular: home con ultimos posts, `/blog/:slug`, `/pagina/:slug` y `/categoria/:slug`.
 3. Ampliar el admin: pages, media, categorias y tags.
 4. Implementar cache Redis con invalidacion en escrituras.
 5. Endurecer produccion: HTTPS, secretos, CORS, CSRF, backups y observabilidad.

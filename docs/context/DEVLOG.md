@@ -47,3 +47,11 @@
 - **Verificacion**: `git ls-remote --heads origin` devuelve `refs/heads/main` en `ec17293`; la API de GitHub lista `README.md`, `apps/`, `packages/`, `docs/` y `.opencode/` en la raiz; `main` local sin divergencia (`## main...origin/main`).
 - **Nota**: la clave `~/.ssh/id_ed25519` tiene passphrase y requiere `ssh-add --apple-use-keychain` tras reiniciar sesion.
 - **Pendientes**: auditoria de WordPress.
+
+## 2026-10-27 - Auditoria de WordPress y cierre de sesion
+
+- **Objetivo**: decidir el alcance del repo respecto al sitio WordPress.
+- **Hallazgos**: instalacion stock 7.1.3 (114 MB, 98 MB de core), temas Twenty Twenty-Three/Four/Five y Akismet, sin `uploads/` ni codigo propio; contenido 2 posts, 1 page, 0 media, 1 categoria, 0 tags, sin menus ni ACF. El document root es un symlink a `~/Documents/Proyectos/wordpress-sites/anguldpress`.
+- **Decision**: WordPress no se versiona en el monorepo (ADR-009). No hay diseno ni contenido que migrar: el sitio publico se disena desde cero.
+- **Verificacion**: `git status` limpio, `main` = `origin/main` en `678c7af`; conteos via REST (`X-WP-Total`).
+- **Pendientes**: ADR-010 (estrategia de datos SSR/SEO) y rutas publicas; admin de pages/media/categorias/tags; cache Redis; tests de API/e2e.
