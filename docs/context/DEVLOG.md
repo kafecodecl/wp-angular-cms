@@ -39,3 +39,11 @@
 - **Verificacion**: `npm run typecheck` OK, `npm run build` OK (1 ruta prerender), `npm test` 2/2; `.env` ignorado y scan de patrones de secretos sin hallazgos.
 - **Bloqueo**: `git push -u origin main` falla con `could not read Username for 'https://github.com'`. No hay credenciales: keychain sin `github.com`, `gh` no instalado y `~/.ssh/id_ed25519.pub` sin autorizar.
 - **Pendientes**: autenticar GitHub y ejecutar el push; auditoria de WordPress.
+
+## 2026-10-27 - Push inicial a GitHub
+
+- **Objetivo**: publicar `main` en el remoto.
+- **Cambios**: `origin` cambiado a SSH (`git@github.com:kafecodecl/wp-angular-cms.git`); `git push -u origin main` publicado `7489f35` y `ec17293`.
+- **Verificacion**: `git ls-remote --heads origin` devuelve `refs/heads/main` en `ec17293`; la API de GitHub lista `README.md`, `apps/`, `packages/`, `docs/` y `.opencode/` en la raiz; `main` local sin divergencia (`## main...origin/main`).
+- **Nota**: la clave `~/.ssh/id_ed25519` tiene passphrase y requiere `ssh-add --apple-use-keychain` tras reiniciar sesion.
+- **Pendientes**: auditoria de WordPress.
