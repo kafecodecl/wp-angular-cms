@@ -9,7 +9,7 @@
 - El dev server esta corriendo en segundo plano (PID 16700). Log: `/tmp/wp-angular-cms-dev.log`.
 - Auth admin, contenido publico y CRUD de posts estan implementados y verificados.
 - Se añadio la arquitectura agentica de opencode (agentes, skills, comandos y hook de journal).
-- Git fue inicializado, pero **no hay commits todavia**.
+- Git tiene un commit inicial local (`7489f35`) y el remoto `origin` configurado; **el push esta bloqueado por falta de credenciales de GitHub en el entorno**.
 
 ## Ultimo trabajo
 
@@ -20,19 +20,22 @@
 - Comandos: `/sync`, `/handoff`, `/verify`, `/log`.
 - Hook `dev-journal` que registra eventos y cambios en `.opencode/state/activity.jsonl` (ignorado por git).
 - Documentos de contexto en `docs/context/`.
+- `README.md` raiz con stack, estructura, comandos, variables y endpoints.
+- Repo remoto `https://github.com/kafecodecl/wp-angular-cms.git` creado pero **vacio** (`size: 0`, sin refs); `origin` ya apunta ahi.
 
 ## Verificado
 
-- `npm run typecheck` OK.
+- `npm run typecheck` OK (2026-10-27, tras el commit inicial).
 - `npm run build` OK (1 ruta prerender).
 - `npm test` OK (2/2).
+- Commit `7489f35` con 89 archivos; `.env`, `node_modules/`, `dist/` y `.opencode/state/` fuera del commit; scan de patrones de secretos sin hallazgos.
 - `opencode.json` JSON valido, frontmatter YAML de 16 archivos valido, sintaxis del plugin y redaccion de secretos OK.
 - Estado de API/web heredado: login 200, admin posts 200, crear 201, editar 200, borrar 200.
 - La carga en runtime de agentes/skills/plugin se confirma al reiniciar opencode desde la raiz.
 
 ## En curso / pendiente
 
-- Reiniciar opencode desde la raiz del proyecto para que cargue `opencode.json`, agentes, skills y plugin.
+- Autenticar git contra GitHub y hacer `git push -u origin main` (sin credenciales en el entorno).
 - Auditar WordPress y migrar el diseno/contenido publico.
 - Completar admin (pages, media, categorias, tags).
 - Cache Redis e invalidacion.
@@ -40,9 +43,9 @@
 
 ## Proximo paso concreto
 
-1. Salir de opencode y abrirlo desde `/Users/felipehrnndz/wp-angular-cms` (la config de proyecto se carga por directorio).
-2. Ejecutar `/sync` para confirmar contexto.
-3. Ejecutar `/verify` y, si pasa, hacer el primer commit manual del proyecto.
+1. Autenticar GitHub en el entorno: PAT por HTTPS (keychain) o añadir `~/.ssh/id_ed25519.pub` a la cuenta.
+2. Ejecutar `git push -u origin main` (el remoto esta vacio, el push sera fast-forward).
+3. Confirmar en GitHub que `main` tiene el commit `7489f35` y el `README.md`.
 4. Empezar la auditoria de WordPress y documentar el inventario en `PROJECT_STATE.md`.
 
 ## Como retomar

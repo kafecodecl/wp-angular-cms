@@ -30,3 +30,12 @@
 - **Cambios**: `opencode.json` (agente por defecto e instrucciones), `AGENTS.md`, 6 agentes, 6 skills, 4 comandos, hook `dev-journal`, `docs/context/` y `.gitignore` para `.opencode/state/`. Se inicializo git sin commits.
 - **Verificacion**: `npm run typecheck` OK, `npm run build` OK (1 ruta prerender), `npm test` 2/2; JSON de `opencode.json`, frontmatter YAML (16 archivos), sintaxis del plugin y redaccion de secretos OK. La carga en runtime de opencode queda pendiente hasta reiniciar.
 - **Pendientes**: reiniciar opencode desde la raiz del proyecto, primer commit manual y auditoria de WordPress.
+
+## 2026-10-27 - Commit inicial y sincronizacion con GitHub
+
+- **Objetivo**: publicar el proyecto en `https://github.com/kafecodecl/wp-angular-cms.git`.
+- **Cambios**: `README.md` raiz (stack, estructura, comandos, variables, endpoints); commit `7489f35` con 89 archivos; `origin` configurado y rama renombrada a `main`.
+- **Estado del remoto**: repo creado pero vacio (`size: 0`, sin refs). El README del comando `echo "# wp-angular-cms" >> README.md` no llego a publicarse, asi que se creo desde cero.
+- **Verificacion**: `npm run typecheck` OK, `npm run build` OK (1 ruta prerender), `npm test` 2/2; `.env` ignorado y scan de patrones de secretos sin hallazgos.
+- **Bloqueo**: `git push -u origin main` falla con `could not read Username for 'https://github.com'`. No hay credenciales: keychain sin `github.com`, `gh` no instalado y `~/.ssh/id_ed25519.pub` sin autorizar.
+- **Pendientes**: autenticar GitHub y ejecutar el push; auditoria de WordPress.
