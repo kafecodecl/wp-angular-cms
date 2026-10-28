@@ -1,0 +1,26 @@
+{
+  "name": "wp-angular-cms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Headless WordPress + Express BFF + Angular monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "npm run build -w @cms/shared && concurrently -n api,web -c blue,green \"npm run dev -w @cms/api\" \"npm run dev -w @cms/web\"",
+    "dev:api": "npm run build -w @cms/shared && npm run dev -w @cms/api",
+    "dev:web": "npm run start -w @cms/web",
+    "build": "npm run build -w @cms/shared && npm run build -w @cms/api && npm run build -w @cms/web",
+    "typecheck": "npm run build -w @cms/shared && npm run typecheck -w @cms/api && npm run typecheck -w @cms/web",
+    "start:api": "npm run start -w @cms/api",
+    "start:web": "npm run serve:ssr -w @cms/web",
+    "test": "npm run test -w @cms/web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

@@ -1,0 +1,63 @@
+<section class="hero">
+  <p class="eyebrow">Plan 1 · Headless WordPress + Express BFF + Angular</p>
+  <h1>Base del proyecto lista</h1>
+  <p class="lead">
+    El frontend Angular consume la API de Express, y Express habla con WordPress.
+    Configura las variables de entorno para conectar tu sitio real.
+  </p>
+</section>
+
+<div class="grid">
+  <article class="card">
+    <h2>Estado de la API</h2>
+
+    @if (loading()) {
+      <p class="muted">Comprobando...</p>
+    } @else if (error()) {
+      <p class="status status--error">{{ error() }}</p>
+    } @else if (health(); as health) {
+      <p class="status" [class.status--error]="health.status === 'degraded'">
+        {{ health.status === 'ok' ? 'Operativa' : 'Degradada' }}
+      </p>
+      <dl>
+        <dt>Uptime</dt>
+        <dd>{{ health.uptime }}s</dd>
+        <dt>WordPress</dt>
+        <dd>
+          @if (health.services.wordpress.configured) {
+            {{ health.services.wordpress.reachable ? 'Conectado' : 'No accesible' }}
+            @if (health.services.wordpress.latencyMs !== null) {
+              ({{ health.services.wordpress.latencyMs }} ms)
+            }
+          } @else {
+            Sin configurar
+          }
+        </dd>
+        <dt>Redis</dt>
+        <dd>{{ health.services.redis.configured ? 'Configurado' : 'Sin configurar' }}</dd>
+      </dl>
+    }
+  </article>
+
+  <article class="card">
+    <h2>Sitio WordPress</h2>
+
+    @if (site(); as site) {
+      <p class="status">Conectado</p>
+      <dl>
+        <dt>Nombre</dt>
+        <dd>{{ site.name }}</dd>
+        <dt>Descripcion</dt>
+        <dd>{{ site.description || 'Sin descripcion' }}</dd>
+        <dt>URL</dt>
+        <dd>{{ site.home }}</dd>
+      </dl>
+    } @else {
+      <p class="muted">
+        Aun no hay conexion con WordPress. Copia <code>.env.example</code> a
+        <code>.env</code> y completa <code>WP_URL</code>, <code>WP_USER</code> y
+        <code>WP_APP_PASSWORD</code>.
+      </p>
+    }
+  </article>
+</div>

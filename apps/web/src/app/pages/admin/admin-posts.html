@@ -1,0 +1,96 @@
+<section class="admin">
+  <header class="admin__header">
+    <div>
+      <p class="eyebrow">Panel</p>
+      <h1>Posts</h1>
+    </div>
+
+    <div class="admin__user">
+      <span>{{ user()?.displayName ?? user()?.username }}</span>
+      <button type="button" class="ghost" (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <div class="admin__grid">
+    <aside class="panel">
+      <div class="panel__head">
+        <h2>Contenido</h2>
+        <button type="button" class="ghost" (click)="newPost()">Nuevo</button>
+      </div>
+
+      @if (loading()) {
+        <p class="muted">Cargando...</p>
+      } @else if (posts().length === 0) {
+        <p class="muted">No hay posts.</p>
+      } @else {
+        <ul class="posts">
+          @for (post of posts(); track post.id) {
+            <li [class.posts__item--active]="editingId() === post.id">
+              <button type="button" class="posts__select" (click)="edit(post)">
+                <span class="posts__title">{{ post.title.raw ?? post.title.rendered }}</span>
+                <span class="posts__meta">
+                  {{ post.status }} · {{ post.date | date: 'short' }}
+                </span>
+              </button>
+              <button
+                type="button"
+                class="posts__delete"
+                title="Eliminar"
+                (click)="remove(post)"
+              >
+                ×
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </aside>
+
+    <form class="panel" [formGroup]="form" (ngSubmit)="save()">
+      <div class="panel__head">
+        <h2>{{ editingId() ? 'Editar post' : 'Nuevo post' }}</h2>
+        @if (editingId()) {
+          <button type="button" class="ghost" (click)="newPost()">Cancelar</button>
+        }
+      </div>
+
+      <label>
+        <span>Titulo</span>
+        <input type="text" formControlName="title" />
+      </label>
+
+      <label>
+        <span>Slug</span>
+        <input type="text" formControlName="slug" placeholder="opcional" />
+      </label>
+
+      <label>
+        <span>Extracto</span>
+        <textarea formControlName="excerpt" rows="2"></textarea>
+      </label>
+
+      <label>
+        <span>Contenido (HTML)</span>
+        <textarea formControlName="content" rows="10"></textarea>
+      </label>
+
+      <label>
+        <span>Estado</span>
+        <select formControlName="status">
+          <option value="draft">Borrador</option>
+          <option value="publish">Publicado</option>
+          <option value="pending">Pendiente</option>
+          <option value="private">Privado</option>
+        </select>
+      </label>
+
+      <button type="submit" [disabled]="saving() || form.invalid">
+        {{ saving() ? 'Guardando...' : editingId() ? 'Actualizar' : 'Crear' }}
+      </button>
+    </form>
+  </div>
+</section>

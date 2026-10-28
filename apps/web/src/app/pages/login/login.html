@@ -1,0 +1,27 @@
+<section class="login">
+  <div class="login__card">
+    <p class="eyebrow">Panel de administracion</p>
+    <h1>Iniciar sesion</h1>
+    <p class="muted">Accede con las credenciales del BFF, no con las de WordPress.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span>Usuario</span>
+        <input type="text" formControlName="username" autocomplete="username" />
+      </label>
+
+      <label>
+        <span>Contrasena</span>
+        <input type="password" formControlName="password" autocomplete="current-password" />
+      </label>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="submitting() || form.invalid">
+        {{ submitting() ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+  </div>
+</section>
